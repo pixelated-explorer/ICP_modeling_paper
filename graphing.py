@@ -14,21 +14,32 @@ df = pd.read_csv(r"C:\ICP_analysis_paper\ICP_modeling_paper\Older files\result_f
 # iterate through array, and plot each onto a matplotlib interface 
 # at the end, do a .show(). render with 600 dpi 
 
-unique_patients = df['patientunitstayid'].unique()
+alive_data = df[df['CompOutcome'] == 0]
+expired_data = df[df['CompOutcome'] == 1]
 
-graph_data = []
+unique_patients_good = alive_data['patientunitstayid'].unique()
+unique_patients_bad = expired_data['patientunitstayid'].unique()
 
-for patient_id in unique_patients: 
+graph_data_good = []
+graph_data_bad = [] 
+
+for patient_id in unique_patients_good: 
     # Filter data for each patient
-    patient_data = df[df['patientunitstayid'] == patient_id]
-    graph_data.append((patient_data['Hour'].values, patient_data['AUCCum'].values))
+    patient_data = alive_data[alive_data['patientunitstayid'] == patient_id]
+    graph_data_good.append((patient_data['Hour'].values, patient_data['AUCCum'].values))
+for patient_id in unique_patients_bad: 
+    patient_data = expired_data[expired_data['patientunitstayid'] == patient_id]
+    graph_data_bad.append((patient_data['Hour'].values, patient_data['AUCCum'].values))
 
-plt.figure(figsize=(10,6))
+plt.figure(figsize=(10,6) )
 
 # for loop for plot 
 
-for time_data, auc_data in graph_data:
-    plt.plot(time_data, auc_data, label=f'Patient {time_data[0]}')
+for time_data, auc_data in graph_data_good:
+    plt.plot(time_data, auc_data, label=f'Patient {time_data[0]}', c="red", linewidth=0.5)
+
+for time_data, auc_data in graph_data_bad: 
+    plt.plot(time_data, auc_data, label=f'Patient {time_data[0]}', c="blue")
 
 plt.title("Cumulative AUC over Time for Each Patient")
 plt.xlabel("Time (hours)")
@@ -37,7 +48,7 @@ plt.xlim(24, 168)
 # plt.yscale("log")
 # plt.legend()
 
-
+'''
 from mpl_toolkits.axes_grid1.inset_locator import inset_axes
 
 # Define the inset axes
@@ -57,9 +68,11 @@ ax_inset.set_title("Focus: 24-72 Hours", fontsize=10)
 # ax_inset.set_xlabel("Time (hours)", fontsize=8)
 # ax_inset.set_ylabel("Cumulative AUC", fontsize=8)
 ax_inset.tick_params(axis='both', which='major', labelsize=8)
+'''
 
 plt.savefig("cumulative_icp_Inset.png", dpi=600)
 plt.show()
+
 
 # %%
 
@@ -79,7 +92,7 @@ alive_data = df[df['CompOutcome'] == 0]
 expired_data = df[df['CompOutcome'] == 1]
 
 # Function to calculate median and error bars for AUCHr per hour
-def calculate_median_and_error(data, time_column='Hour', value_column='AUCHr'):
+def calculate_median_and_error(data, time_column='Hour', value_column='Sp35AUCCum'): # change for every val you need 
     # Group by time and calculate the median, 25th, and 75th percentiles
     grouped = data.groupby(time_column)[value_column].agg(['median', 'quantile'])
     grouped['q25'] = data.groupby(time_column)[value_column].quantile(0.25)
@@ -112,7 +125,7 @@ plt.xlabel("Time (hours)")
 plt.ylabel("AUCHr")
 plt.legend()
 plt.grid(True)
-plt.xlim(0, 168)  # Adjust as necessary based on your dataset
+plt.xlim(24, 168)  # Adjust as necessary based on your dataset
 
 # Save and display the plot
 plt.savefig("median_auchr_plot.png", dpi=600)
@@ -125,7 +138,7 @@ alive_data = df[df['CompOutcome'] == 0]
 expired_data = df[df['CompOutcome'] == 1]
 
 # Function to calculate median and error bars for AUCHr every 24 hours
-def calculate_median_and_error(data, time_column='Hour', value_column='AUCHr', interval=24):
+def calculate_median_and_error(data, time_column='Hour', value_column='Sp35AUCCum', interval=24):
     # Bin the hours into intervals of `interval` (e.g., 24 hours)
     data['HourBin'] = (data[time_column] // interval) * interval
 
