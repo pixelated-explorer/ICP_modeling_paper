@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import seaborn as sns
 import re
-from sklearn.linear_model import LinearRegressionn
+# from sklearn.linear_model import LinearRegressionn
 import missingno as mno
 from sklearn.preprocessing import MinMaxScaler
 from statsmodels.imputation.mice import MICEData
@@ -300,6 +300,10 @@ list = ['respiration', 'systemicsystolic', 'systemicmean']
 # in context of the entire dataframe. 
 
 # We can also drop temperature for now. 
+print(len(vitalsP_imputed_DF['patientunitstayid'].unique()))
+vitalsP_imputed_DF.to_csv("vitalsP_cleaned.csv")
+
+# %%
 
 vitalsP_imputed_DF = vitalsP_imputed_DF.drop(columns='temperature')
 

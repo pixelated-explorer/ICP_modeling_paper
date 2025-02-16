@@ -37,6 +37,7 @@ grouped = {
     r'notes/Progress Notes/Physical Exam/Physical Exam/Constitutional/Vital Sign and Physiological Data/PEEP/PEEP' : 'PEEP',
     r'notes/Progress Notes/Physical Exam/Physical Exam/Constitutional/Vital Sign and Physiological Data/Resp Mode' : 'respMode',
     r'notes/Progress Notes/Physical Exam/Physical Exam/Constitutional/Weight and I&O/Weight \(kg\)/Admission' : 'kgAdmission',
+    r'notes/Progress Notes/Physical Exam/Physical Exam/Constitutional/Weight and I&O/Weight \(kg\)/Current' : 'kgCurrent',
     r'notes/Progress Notes/Physical Exam/Physical Exam/Head and Neck/Eyes/Pupils/\(reaction\)' : 'pupilReact',
     r'notes/Progress Notes/Physical Exam/Physical Exam/Head and Neck/Eyes/Pupils/\(symmetry\)' : 'pupilSymmetry',
     r'notes/Progress Notes/Physical Exam/Physical Exam/Neurologic/Cranial Nerves' : 'crainNerves',
@@ -71,15 +72,15 @@ def replace_item(item):
     return item 
 
 df['physicalexampath'] = df['physicalexampath'].apply(replace_item)
-print(df)
-
+# print(df)
+df.head()
 
 # %%
 
 # for now setting to nans and dropping all nans 
 
 
-df.loc[df['physicalexampath'].str.contains('notes', na=False), 'physicalexampath'] = np.NaN
+df.loc[df['physicalexampath'].str.contains('notes', na=False), 'physicalexampath'] = np.nan
 
 df.head(100000000000000000000)
 

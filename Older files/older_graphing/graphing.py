@@ -92,7 +92,7 @@ alive_data = df[df['CompOutcome'] == 0]
 expired_data = df[df['CompOutcome'] == 1]
 
 # Function to calculate median and error bars for AUCHr per hour
-def calculate_median_and_error(data, time_column='Hour', value_column='Sp35AUCCum'): # change for every val you need 
+def calculate_median_and_error(data, time_column='Hour', value_column='Sp20AUCCum'): # change for every val you need 
     # Group by time and calculate the median, 25th, and 75th percentiles
     grouped = data.groupby(time_column)[value_column].agg(['median', 'quantile'])
     grouped['q25'] = data.groupby(time_column)[value_column].quantile(0.25)
@@ -120,7 +120,7 @@ plt.errorbar(time_alive, median_alive, yerr=[lower_alive, upper_alive], fmt='-o'
 plt.errorbar(time_expired, median_expired, yerr=[lower_expired, upper_expired], fmt='-o', label='Expired', capsize=5, color='red')
 
 # Customize the plot
-plt.title("Median AUCHr per Hour with Error Bars")
+plt.title("Median Sp20AUCCum per Hour")
 plt.xlabel("Time (hours)")
 plt.ylabel("AUCHr")
 plt.legend()
@@ -128,7 +128,7 @@ plt.grid(True)
 plt.xlim(24, 168)  # Adjust as necessary based on your dataset
 
 # Save and display the plot
-plt.savefig("median_auchr_plot.png", dpi=600)
+plt.savefig("median_Sp20AUCCum_plot.png", dpi=600)
 plt.show()
 
 # %%
@@ -138,7 +138,7 @@ alive_data = df[df['CompOutcome'] == 0]
 expired_data = df[df['CompOutcome'] == 1]
 
 # Function to calculate median and error bars for AUCHr every 24 hours
-def calculate_median_and_error(data, time_column='Hour', value_column='Sp35AUCCum', interval=24):
+def calculate_median_and_error(data, time_column='Hour', value_column='Sp20AUCCum', interval=24):
     # Bin the hours into intervals of `interval` (e.g., 24 hours)
     data['HourBin'] = (data[time_column] // interval) * interval
 
@@ -169,7 +169,7 @@ plt.errorbar(time_alive, median_alive, yerr=[lower_alive, upper_alive], fmt='-o'
 plt.errorbar(time_expired, median_expired, yerr=[lower_expired, upper_expired], fmt='-o', label='Expired', capsize=5, color='red')
 
 # Customize the plot
-plt.title("Median AUCHr per 24-Hour Interval with Error Bars")
+plt.title("Median Sp20AUCCum per 24-Hour Interval")
 plt.xlabel("Time (hours)")
 plt.ylabel("AUCHr")
 plt.legend()
@@ -178,5 +178,5 @@ plt.xticks(time_alive, rotation=45)  # Ensure x-axis ticks match 24-hour bins
 plt.xlim(0, 192)  # Adjust as necessary based on your dataset
 
 # Save and display the plot
-plt.savefig("median_auchr_24hr_plot.png", dpi=600)
+plt.savefig("median_Sp20AUCCum_24hr_plot.png", dpi=600)
 plt.show()
