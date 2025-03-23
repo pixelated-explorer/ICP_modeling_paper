@@ -77,7 +77,7 @@ plt.show()
 
 # %%
 
-# NOTE: lets do the simple visualizations 
+# NOTE: cumulative plot stuff, make sure if this is right. 
 df_inout = df_inout.sort_values(by=['patientunitstayid', 'intakeoutputoffset'])
 df_inout['cumulative_nettotal'] = df_inout.groupby('patientunitstayid')['nettotal'].cumsum()
 
