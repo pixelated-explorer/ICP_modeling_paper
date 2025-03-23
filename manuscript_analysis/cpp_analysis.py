@@ -16,7 +16,7 @@ iter through FINAL__wce.... .csv
 '''
 
 df_final = pd.read_csv(r"C:\ICP_analysis_paper\ICP_modeling_paper\Older files\result_files\FINAL_wce_merged_model.csv")
-df_vitals = pd.read_csv(r"C:\ICP_analysis_paper\ICP_modeling_paper\Older files\older_graphing\vitalsP_cleaned.csv")
+df_vitals = pd.read_csv(r"/home/rayan/Research/medical_proj/ICP_modeling_paper/Older files/older_graphing/vitalsP_cleaned.csv")
 df_vitals = df_vitals.sort_values(by=['patientunitstayid', 'Time']) 
 
 print(len(df_final['patientunitstayid'].unique()))
