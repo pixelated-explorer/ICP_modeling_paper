@@ -134,7 +134,7 @@ plt.ylabel("Cumulative fluid")
 plt.legend()
 plt.grid(True)
 plt.xticks(time_alive, rotation=45)  # Ensure x-axis ticks match 24-hour bins
-plt.xlim(0, 192)  # Adjust as necessary based on your dataset
+# plt.xlim(0, 192)  # Adjust as necessary based on your dataset
 
 # Save and display the plot
 # plt.savefig("median_Sp20AUCCum_24hr_plot.png", dpi=600)
